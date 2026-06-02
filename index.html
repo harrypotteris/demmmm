@@ -1,42 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Live Mirror</title>
+    <title>Live Camera Stream</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            text-align: center;
+            font-family: Arial;
+        }
+        img {
+            width: 80%;
+            border: 3px solid white;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Live Webcam Mirror</h2>
 
-    <video id="video" autoplay></video>
-    <img src="/video_feed" width="640"/>
+    <h1>🔥 Live Camera Feed</h1>
 
-    <script>
-        const video = document.getElementById('video');
+    <img src="/video_feed" />
 
-        navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
-
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-
-            setInterval(() => {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-
-                ctx.drawImage(video, 0, 0);
-
-                const image = canvas.toDataURL("image/jpeg");
-
-                fetch("/upload", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ image })
-                });
-
-            }, 200); // 5 FPS
-        });
-    </script>
 </body>
 </html>
